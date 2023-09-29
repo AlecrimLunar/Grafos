@@ -9,7 +9,7 @@ public class App {
         StringBuilder sb = new StringBuilder();
         int n = 0;
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("C:/Users/Alecrim/Downloads/pcv10.txt"))) { //Lendo o arquivo e passando para um BufferedReader
+        try (BufferedReader leitor = new BufferedReader(new FileReader("pcv4.txt"))) { //Lendo o arquivo e passando para um BufferedReader
             String linha;
 
             n = Integer.parseInt(leitor.readLine()); //Lendo o tamanho da matriz
@@ -38,15 +38,20 @@ public class App {
             System.out.print("O vertíce " + (cont+1) + " está conectado com: ");
             int aux = 0;
 
-            while(aux < gp.getLista().get(cont).size() ){
-                System.out.print(gp.getLista().get(cont).get(aux) + " ");
+            if(gp.getLista().get(cont).isEmpty()){ //Caso o vértice não esteja conectado com nenhum outro
+                System.out.print("Não está conectado com nenhum outro");
+            } else {
+                while(aux < gp.getLista().get(cont).size() ){
+                    System.out.print(gp.getLista().get(cont).get(aux) + " ");
                 aux++;
+                }
             }
 
             System.out.println();
             cont++;
         }
 
-        System.out.println("\n" + gp.BFS(3, 9)); //Chamando o BFS e dando como entrada o inicio e o objetivo
+        System.out.println("\n" + gp.BFS(1, 4)); //Chamando o BFS e dando como entrada o inicio e o objetivo
+        gp.DFS(1); //Chamando a DFS
     }
 }

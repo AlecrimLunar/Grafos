@@ -2,6 +2,7 @@ package Estrutura;
 
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class Grafo {
         fila.offer(inicio-1);
         ant[inicio-1] = inicio-1;
 
-        System.out.println("\nBusca em Largura:");
+        System.out.println("\n---Busca em Largura:");
         while(!fila.isEmpty()){ //Inicia while da fila
             int vAtual = fila.poll();
             System.out.print(vAtual+1 + " ");
@@ -67,14 +68,14 @@ public class Grafo {
 
             }
 
-            if(fila.isEmpty() &&  visitadosFalse(visitados)){ // casho termine a busca por vizinhos e ainda tiver vértices ainda não visitados
+            if(fila.isEmpty() &&  visitadosFalse(visitados)){ // caso termine a busca por vizinhos e ainda tiver vértices ainda não visitados
                 int i = 0;
                 while(visitados[i])
                     i++;
                 fila.offer(i);
                 visitados[i] = true;
                 System.out.print("/ ");
-                ant[i] = i;
+                ant[i] = i; //Definindo o anterior do primeiro como ele mesmo
             }
         }
         
@@ -98,6 +99,40 @@ public class Grafo {
         }
         sb.append(objetivo);
         return sb.toString(); //Retorna a String
+    }
+
+    public void DFS(int inicio){
+        boolean[] visitados = new boolean[nDeVertices]; //Lista "isVisited"
+        for(int i=0; i<nDeVertices; i++){ //Colocando todos da lista como False
+            visitados[i] = false;
+        }
+
+        Stack<Integer> pilha = new Stack<>(); //Craindo a pilha
+
+        visitados[inicio-1] = true; //Fazendo a primeira operação com o início
+        pilha.push(inicio-1); //Adicionando-o na pilha
+
+        System.out.println("\n---Busca em Profundidade:");
+
+        while(!pilha.isEmpty()){ //Iniciando o while para escrever todos so vértices
+            int vAtual = pilha.pop(); 
+            System.out.print(vAtual+1 + " ");
+
+            for (int vizinho : lista.get(vAtual)) { //Buscando os vértices não visitados
+                if (!visitados[vizinho - 1]) {
+                    visitados[vizinho - 1] = true;
+                    pilha.push(vizinho - 1);
+                }
+            }
+            if (pilha.isEmpty() && visitadosFalse(visitados)) { //Caso a pilha esteja vazia mas ainda haja vértices não visitados
+                int i = 0;
+                while (visitados[i])
+                    i++;
+                pilha.push(i);
+                visitados[i] = true;
+                System.out.print("/ ");
+            }
+        }
     }
 
     private boolean visitadosFalse(boolean[] visitados){ //Verifica se ainda tem vértices ainda não visitados
